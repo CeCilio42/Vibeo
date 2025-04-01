@@ -55,7 +55,7 @@ class _MovieScreenState extends State<MovieScreen> {
       });
     } catch (e) {
       print('Error: $e');
-    }
+    } // fix
   }
 
   Future<List<Movie>> _fetchMoviesPage(int page) async {
