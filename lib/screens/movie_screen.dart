@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'movies_list_screen.dart';
+import 'mood_screen.dart';
 import 'tv_series_screen.dart';
 
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({super.key});
+  final String? mood;
+  const MovieScreen({super.key, this.mood});
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();
@@ -35,6 +37,8 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final displayText = 'Welcome John';
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -61,7 +65,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
-                    'Welcome John',
+                    displayText,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -111,13 +115,20 @@ class _MovieScreenState extends State<MovieScreen> {
                       ),
                       SizedBox(width: 8), // small gap between buttons
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoodScreen(),
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.black),
                           backgroundColor: Colors.transparent,
                           padding: EdgeInsets.symmetric(horizontal: 12), // added padding
                         ),
-                        child: Text('Mood',
+                        child: Text(widget.mood ?? 'Mood',
                             style: TextStyle(color: Colors.black)),
                       ),
                     ],
