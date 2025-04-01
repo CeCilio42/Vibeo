@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'movies_list_screen.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
@@ -61,7 +62,14 @@ class _MovieScreenState extends State<MovieScreen> {
                     mainAxisAlignment: MainAxisAlignment.start, // changed from center
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoviesListScreen(),
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
@@ -112,14 +120,10 @@ class _MovieScreenState extends State<MovieScreen> {
                             child: Container(
                               margin: const EdgeInsets.symmetric(horizontal: 10),
                               child: AspectRatio(
-                                aspectRatio: 2 / 3, // movie poster ratio
+                                aspectRatio: 2 / 3,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: index == 0
-                                        ? Colors.red[800]
-                                        : index == 1
-                                            ? Colors.blue[800]
-                                            : Colors.green[800],
+                                    color: Colors.grey[800],
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
