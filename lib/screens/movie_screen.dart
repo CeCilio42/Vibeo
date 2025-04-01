@@ -15,6 +15,18 @@ class _MovieScreenState extends State<MovieScreen> {
     initialPage: 1,
   );
 
+  double page = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      setState(() {
+        page = _pageController.page ?? 0;
+      });
+    });
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -118,35 +130,30 @@ class _MovieScreenState extends State<MovieScreen> {
                     controller: _pageController,
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      double scale = index == 1 ? 1.0 : 0.85;
-                      return TweenAnimationBuilder(
-                        tween: Tween<double>(begin: scale, end: scale),
-                        duration: const Duration(milliseconds: 350),
-                        builder: (context, value, child) {
-                          return Transform.scale(
-                            scale: value,
+                      double difference = (page - index).abs();
+                      double scale = 1 - (difference * 0.15);
+                      return Transform.scale(
+                        scale: scale,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: AspectRatio(
+                            aspectRatio: 2 / 3,
                             child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 10),
-                              child: AspectRatio(
-                                aspectRatio: 2 / 3,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[800],
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
+                              decoration: BoxDecoration(
+                                color: Colors.grey[800],
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       );
                     },
                   ),
