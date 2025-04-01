@@ -51,7 +51,10 @@ class TvSeriesScreen extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MoviesListScreen(),
+                              builder: (context) => MoviesListScreen(
+                                mood: mood,
+                                movies: [], // This will be handled by MovieScreen when navigating from there
+                              ),
                             ),
                           );
                         },

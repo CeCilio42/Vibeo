@@ -43,59 +43,53 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Future<void> _fetchMovies() async {
     try {
-      final moodGenres = MoodGenres.getGenresForMood(widget.mood);
-      final baseUrl = 'https://api.themoviedb.org/3/';
-      final endpoint = moodGenres['genres'].isEmpty 
-          ? 'movie/popular' 
-          : 'discover/movie';
+      final movies1 = await _fetchMoviesPage(1);
+      final movies2 = await _fetchMoviesPage(2);
       
-      final url = Uri.parse(
-        '$baseUrl$endpoint?'
-        'language=en-US'
-        '&sort_by=popularity.desc'
-        '&include_adult=false'
-        '&include_video=false'
-        '&page=1'
-        '&vote_count.gte=100'
-        '${moodGenres['genres'].isEmpty ? '' : '&with_genres=${moodGenres['genres']}'}'
-      );
-
-      print('Fetching movies from: $url'); // Debug print
-
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Bearer $accessToken',
-          'Content-Type': 'application/json',
-        },
-      );
+      final allMovies = [...movies1, ...movies2];
       
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        print('Total results: ${data['total_results']}'); // Debug print
-        
-        final movies = (data['results'] as List)
-            .where((movie) => movie['poster_path'] != null)
-            .map((movie) {
-              print('Processing movie: ${movie['title']} with poster: ${movie['poster_path']}'); // Debug print
-              return Movie.fromJson(movie);
-            })
-            .toList();
-            
-        setState(() {
-          featuredMovies = movies.take(5).toList();
-          recommendedMovies = movies.skip(5).take(10).toList();
-          popularMovies = movies.skip(15).take(10).toList();
-        });
-        
-        print('Loaded ${movies.length} movies'); // Debug print
-      } else {
-        print('Error fetching movies: ${response.statusCode}');
-        print('Response body: ${response.body}'); // Debug print
-      }
+      setState(() {
+        featuredMovies = allMovies.take(5).toList();
+        recommendedMovies = allMovies.skip(5).take(10).toList();
+        popularMovies = allMovies.skip(15).take(10).toList();
+      });
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  Future<List<Movie>> _fetchMoviesPage(int page) async {
+    final moodGenres = MoodGenres.getGenresForMood(widget.mood);
+    final baseUrl = 'https://api.themoviedb.org/3/';
+    final endpoint = moodGenres['genres'].isEmpty ? 'movie/popular' : 'discover/movie';
+    
+    final url = Uri.parse(
+      '$baseUrl$endpoint?'
+      'language=en-US'
+      '&sort_by=popularity.desc'
+      '&include_adult=false'
+      '&include_video=false'
+      '&page=$page'
+      '&vote_count.gte=100'
+      '${moodGenres['genres'].isEmpty ? '' : '&with_genres=${moodGenres['genres']}'}'
+    );
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return (data['results'] as List)
+          .where((movie) => movie['poster_path'] != null)
+          .map((movie) => Movie.fromJson(movie))
+          .toList();
+    }
+    return [];
   }
 
   @override
@@ -150,7 +144,10 @@ class _MovieScreenState extends State<MovieScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MoviesListScreen(),
+                              builder: (context) => MoviesListScreen(
+                                mood: widget.mood,
+                                movies: featuredMovies + recommendedMovies + popularMovies,
+                              ),
                             ),
                           );
                         },

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'tv_series_screen.dart';
 import '../utils/mood_colors.dart';
+import '../models/movie.dart';
 
-class MoviesListScreen extends StatelessWidget {
+class MoviesListScreen extends StatefulWidget {
   final String? mood;
-  const MoviesListScreen({super.key, this.mood});
+  final List<Movie> movies;
+  const MoviesListScreen({super.key, this.mood, required this.movies});
 
   @override
+  State<MoviesListScreen> createState() => _MoviesListScreenState();
+}
+
+class _MoviesListScreenState extends State<MoviesListScreen> {
+  @override
   Widget build(BuildContext context) {
-    final moodColor = MoodColors.getGradientColorForMood(mood);
+    final moodColor = MoodColors.getGradientColorForMood(widget.mood);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -92,11 +99,12 @@ class MoviesListScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Categories with movies
-                _buildMovieCategory('Trending Movies Today'),
-                _buildMovieCategory('Newly Added'),
-                _buildMovieCategory('My List'),
-                _buildMovieCategory('Local Movies'),
+                // Movie categories
+                _buildMovieCategory('Trending Now', widget.movies.take(10).toList()),
+                _buildMovieCategory('Popular Movies', widget.movies.skip(10).take(10).toList()),
+                _buildMovieCategory('Recommended', widget.movies.skip(20).take(10).toList()),
+                _buildMovieCategory('My List', widget.movies.skip(5).take(10).toList()),
+                _buildMovieCategory('Local Movies', widget.movies.skip(15).take(10).toList()),
               ],
             ),
           ),
@@ -105,7 +113,7 @@ class MoviesListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMovieCategory(String title) {
+  Widget _buildMovieCategory(String title, List<Movie> movies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -124,13 +132,16 @@ class MoviesListScreen extends StatelessWidget {
           height: 200,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 10,
+            itemCount: movies.length,
             itemBuilder: (context, index) => Container(
               width: 130,
               margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
                 borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(movies[index].fullPosterPath),
+                  fit: BoxFit.cover,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
