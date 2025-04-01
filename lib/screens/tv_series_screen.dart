@@ -4,7 +4,11 @@ import '../utils/mood_colors.dart';
 
 class TvSeriesScreen extends StatefulWidget {
   final String? mood;
-  const TvSeriesScreen({super.key, this.mood});
+
+  const TvSeriesScreen({
+    Key? key,
+    this.mood,
+  }) : super(key: key);
 
   @override
   State<TvSeriesScreen> createState() => _TvSeriesScreenState();
@@ -57,7 +61,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => MoviesListScreen(
-                                mood: mood,
+                                mood: widget.mood,
                                 movies: [], // This will be handled by MovieScreen when navigating from there
                               ),
                             ),
@@ -92,7 +96,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                           backgroundColor: Colors.transparent,
                           padding: EdgeInsets.symmetric(horizontal: 12),
                         ),
-                        child: Text('Mood',
+                        child: Text(widget.mood ?? 'Mood',
                             style: TextStyle(color: Colors.black)),
                       ),
                     ],
