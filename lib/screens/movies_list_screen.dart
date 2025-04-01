@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:vibeo/utils/mood_colors.dart';
 import 'tv_series_screen.dart';
 import '../utils/mood_colors.dart';
 import '../models/movie.dart';
 
 class MoviesListScreen extends StatefulWidget {
-class MoviesListScreen extends StatefulWidget {
   final String? mood;
   final List<Movie> movies;
-  const MoviesListScreen({super.key, this.mood, required this.movies});
 
-  @override
-  State<MoviesListScreen> createState() => _MoviesListScreenState();
-}
+  const MoviesListScreen({
+    Key? key, 
+    this.mood, 
+    required this.movies,
+  }) : super(key: key);
 
-class _MoviesListScreenState extends State<MoviesListScreen> {
   @override
   State<MoviesListScreen> createState() => _MoviesListScreenState();
 }
@@ -28,27 +26,29 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
+          // Full screen gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  backgroundColor.withOpacity(0.6),
+                  moodColor.withOpacity(0.6),
                   Colors.black,
                 ],
               ),
             ),
           ),
+          // Content
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
+                  padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
                     'Movies',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, left: 16.0),
+                  padding: EdgeInsets.only(bottom: 8.0, left: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -65,13 +65,13 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                           Navigator.pop(context);
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.white),
+                          side: BorderSide(color: Colors.black),
                           backgroundColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
                         ),
-                        child: const Text('Movies', style: TextStyle(color: Colors.white)),
+                        child: Text('Movies', style: TextStyle(color: Colors.black)),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -82,31 +82,31 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.white),
+                          side: BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
+                          padding: EdgeInsets.symmetric(horizontal: 18),
                         ),
-                        child: const Text('TV-Series', style: TextStyle(color: Colors.white)),
+                        child: Text('TV-Series', style: TextStyle(color: Colors.white)),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () {},
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.white),
+                          side: BorderSide(color: Colors.black),
                           backgroundColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 12),
                         ),
-                        child: Text(widget.mood ?? 'Mood', style: const TextStyle(color: Colors.white)),
+                        child: Text(widget.mood ?? 'Mood', style: TextStyle(color: Colors.black)),
                       ),
                     ],
                   ),
                 ),
                 // Movie categories
-                _buildMovieCategory('Trending Now', widget.movies.take(10).toList()),
-                _buildMovieCategory('Popular Movies', widget.movies.skip(10).take(10).toList()),
-                _buildMovieCategory('Recommended', widget.movies.skip(20).take(10).toList()),
-                _buildMovieCategory('My List', widget.movies.skip(5).take(10).toList()),
-                _buildMovieCategory('Local Movies', widget.movies.skip(15).take(10).toList()),
+                _buildMovieCategory('Top Picks for You', widget.movies.take(10).toList()),
+                _buildMovieCategory('Recently Added', widget.movies.skip(10).take(10).toList()),
+                _buildMovieCategory('Trending Now', widget.movies.skip(20).take(10).toList()),
+                if (widget.movies.length > 30)
+                  _buildMovieCategory('More Movies', widget.movies.skip(30).toList()),
               ],
             ),
           ),
