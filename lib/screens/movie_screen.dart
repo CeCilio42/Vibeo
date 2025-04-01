@@ -6,7 +6,7 @@ import 'mood_screen.dart';
 import 'movies_list_screen.dart';
 import 'tv_series_screen.dart';
 import 'package:vibeo/utils/mood_colors.dart';
-
+import '../utils/mood_genres.dart';
 
 class MovieScreen extends StatefulWidget {
   final String? mood;
@@ -43,8 +43,27 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Future<void> _fetchMovies() async {
     try {
+      final moodGenres = MoodGenres.getGenresForMood(widget.mood);
+      final baseUrl = 'https://api.themoviedb.org/3/';
+      final endpoint = moodGenres['genres'].isEmpty 
+          ? 'movie/popular' 
+          : 'discover/movie';
+      
+      final url = Uri.parse(
+        '$baseUrl$endpoint?'
+        'language=en-US'
+        '&sort_by=popularity.desc'
+        '&include_adult=false'
+        '&include_video=false'
+        '&page=1'
+        '&vote_count.gte=100'
+        '${moodGenres['genres'].isEmpty ? '' : '&with_genres=${moodGenres['genres']}'}'
+      );
+
+      print('Fetching movies from: $url'); // Debug print
+
       final response = await http.get(
-        Uri.parse('https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=18'),
+        url,
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',
@@ -53,9 +72,14 @@ class _MovieScreenState extends State<MovieScreen> {
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        print('Total results: ${data['total_results']}'); // Debug print
+        
         final movies = (data['results'] as List)
             .where((movie) => movie['poster_path'] != null)
-            .map((movie) => Movie.fromJson(movie))
+            .map((movie) {
+              print('Processing movie: ${movie['title']} with poster: ${movie['poster_path']}'); // Debug print
+              return Movie.fromJson(movie);
+            })
             .toList();
             
         setState(() {
@@ -63,8 +87,11 @@ class _MovieScreenState extends State<MovieScreen> {
           recommendedMovies = movies.skip(5).take(10).toList();
           popularMovies = movies.skip(15).take(10).toList();
         });
+        
+        print('Loaded ${movies.length} movies'); // Debug print
       } else {
         print('Error fetching movies: ${response.statusCode}');
+        print('Response body: ${response.body}'); // Debug print
       }
     } catch (e) {
       print('Error: $e');
