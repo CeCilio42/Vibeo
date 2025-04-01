@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../models/movie.dart';
 import 'movies_list_screen.dart';
 import 'mood_screen.dart';
 import 'tv_series_screen.dart';
@@ -17,6 +20,12 @@ class _MovieScreenState extends State<MovieScreen> {
     initialPage: 1,
   );
 
+  final String apiKey = '8a969ffeea8a30f2e1848a292986d6cc';
+  final String accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YTk2OWZmZWVhOGEzMGYyZTE4NDhhMjkyOTg2ZDZjYyIsIm5iZiI6MTc0MzUwODIyNy45ODMsInN1YiI6IjY3ZWJkMzAzNjc5NjY1MGRmZThiZjZhOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2sfIdqW7dIDMqXkgDd6nLHsQHKbrtdKJgahXfNMJgwg';
+  List<Movie> featuredMovies = [];
+  List<Movie> recommendedMovies = [];
+  List<Movie> popularMovies = [];
+
   double page = 1.0;
 
   @override
@@ -27,6 +36,37 @@ class _MovieScreenState extends State<MovieScreen> {
         page = _pageController.page ?? 0;
       });
     });
+    _fetchMovies();
+  }
+
+  Future<void> _fetchMovies() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=18'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+      
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final movies = (data['results'] as List)
+            .where((movie) => movie['poster_path'] != null)
+            .map((movie) => Movie.fromJson(movie))
+            .toList();
+            
+        setState(() {
+          featuredMovies = movies.take(5).toList();
+          recommendedMovies = movies.skip(5).take(10).toList();
+          popularMovies = movies.skip(15).take(10).toList();
+        });
+      } else {
+        print('Error fetching movies: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   @override
@@ -139,7 +179,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: MediaQuery.of(context).size.height * 0.4,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: 3,
+                    itemCount: featuredMovies.length,
                     itemBuilder: (context, index) {
                       double difference = (page - index).abs();
                       double scale = 1 - (difference * 0.15);
@@ -151,8 +191,13 @@ class _MovieScreenState extends State<MovieScreen> {
                             aspectRatio: 2 / 3,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey[800],
                                 borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    featuredMovies[index].fullPosterPath,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
@@ -240,11 +285,19 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: recommendedMovies.length,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      color: Colors.grey[800],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            recommendedMovies[index].fullPosterPath,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -263,11 +316,19 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: popularMovies.length,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      color: Colors.grey[800],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            popularMovies[index].fullPosterPath,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
