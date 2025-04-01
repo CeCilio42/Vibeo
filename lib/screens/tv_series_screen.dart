@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'movies_list_screen.dart';
+import '../utils/mood_colors.dart';
 
 class TvSeriesScreen extends StatelessWidget {
-  const TvSeriesScreen({super.key});
+  final String? mood;
+  const TvSeriesScreen({super.key, this.mood});
 
   @override
   Widget build(BuildContext context) {
+    final moodColor = MoodColors.getGradientColorForMood(mood);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -16,7 +20,7 @@ class TvSeriesScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue.withOpacity(0.6),
+                  moodColor.withOpacity(0.6),
                   Colors.black,
                 ],
               ),
