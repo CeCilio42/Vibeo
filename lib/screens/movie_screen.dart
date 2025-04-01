@@ -150,7 +150,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MoviesListScreen(),
+                              builder: (context) => MoviesListScreen(mood: widget.mood),
                             ),
                           );
                         },
@@ -168,7 +168,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TvSeriesScreen(),
+                              builder: (context) => TvSeriesScreen(mood: widget.mood),
                             ),
                           );
                         },

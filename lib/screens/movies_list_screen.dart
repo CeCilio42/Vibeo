@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:vibeo/utils/mood_colors.dart';
 import 'tv_series_screen.dart';
-import '../utils/mood_colors.dart';
 
-class MoviesListScreen extends StatelessWidget {
+class MoviesListScreen extends StatefulWidget {
   final String? mood;
   const MoviesListScreen({super.key, this.mood});
 
   @override
+  State<MoviesListScreen> createState() => _MoviesListScreenState();
+}
+
+class _MoviesListScreenState extends State<MoviesListScreen> {
+  @override
   Widget build(BuildContext context) {
-    final moodColor = MoodColors.getGradientColorForMood(mood);
+    final backgroundColor = MoodColors.getGradientColorForMood(widget.mood);
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // Full screen gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  moodColor.withOpacity(0.6),
+                  backgroundColor.withOpacity(0.6),
                   Colors.black,
                 ],
               ),
             ),
           ),
-          // Content
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
+                  padding: const EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
                     'Movies',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -44,7 +47,7 @@ class MoviesListScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8.0, left: 16.0),
+                  padding: const EdgeInsets.only(bottom: 8.0, left: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -53,46 +56,42 @@ class MoviesListScreen extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                         ),
-                        child: Text('Movies',
-                            style: TextStyle(color: Colors.black)),
+                        child: const Text('Movies', style: TextStyle(color: Colors.white)),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TvSeriesScreen(),
+                              builder: (context) => TvSeriesScreen(mood: widget.mood),
                             ),
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.white),
+                          side: const BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
                         ),
-                        child: Text('TV-Series',
-                            style: TextStyle(color: Colors.white)),
+                        child: const Text('TV-Series', style: TextStyle(color: Colors.white)),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () {},
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
                         ),
-                        child: Text('Mood',
-                            style: TextStyle(color: Colors.black)),
+                        child: Text(widget.mood ?? 'Mood', style: const TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
                 ),
-                // Categories with movies
                 _buildMovieCategory('Trending Movies Today'),
                 _buildMovieCategory('Newly Added'),
                 _buildMovieCategory('My List'),
