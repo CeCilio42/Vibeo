@@ -4,18 +4,19 @@ class MoodColors {
   static Color getGradientColorForMood(String? mood) {
     switch (mood?.toLowerCase()) {
       case 'angry':
+        return Colors.red[700] ?? Colors.red;
       case 'horny':
-        return Colors.red;
+        return Colors.deepPurple;
       case 'sad':
-        return Colors.blue;
+        return Colors.indigo[600] ?? Colors.blue;
       case 'happy':
-        return Colors.yellow;
+        return Colors.amber;
       case 'relaxed':
-        return Colors.green;
+        return Colors.teal[400] ?? Colors.green;
       case 'romantic':
-        return Colors.pink;
+        return Colors.pink[300] ?? Colors.pink;
       default:
-        return Colors.blue;
+        return Colors.blueGrey;
     }
   }
 }

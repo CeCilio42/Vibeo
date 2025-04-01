@@ -165,7 +165,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TvSeriesScreen(),
+                              builder: (context) => TvSeriesScreen(mood: widget.mood),
                             ),
                           );
                         },
