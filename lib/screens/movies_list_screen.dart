@@ -31,7 +31,7 @@ class MoviesListScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
-                    'Welcome John',
+                    'Movies',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -89,12 +89,10 @@ class MoviesListScreen extends StatelessWidget {
                   ),
                 ),
                 // Categories with movies
-                _buildMovieCategory('Action Movies'),
-                _buildMovieCategory('Comedy'),
-                _buildMovieCategory('Drama'),
-                _buildMovieCategory('Sci-Fi'),
-                _buildMovieCategory('Horror'),
-                _buildMovieCategory('Romance'),
+                _buildMovieCategory('Trending Movies Today'),
+                _buildMovieCategory('Newly Added'),
+                _buildMovieCategory('My List'),
+                _buildMovieCategory('Local Movies'),
               ],
             ),
           ),

@@ -29,7 +29,7 @@ class TvSeriesScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
-                    'Welcome John',
+                    'TV-Series',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -86,13 +86,12 @@ class TvSeriesScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                _buildSeriesCategory('Popular Series'),
-                _buildSeriesCategory('Crime Series'),
-                _buildSeriesCategory('Comedy Series'),
-                _buildSeriesCategory('Drama Series'),
+                _buildSeriesCategory('Trending Series Today'),
+                _buildSeriesCategory('Recommended'),
+                _buildSeriesCategory('My List'),
+                _buildSeriesCategory('Local Series'),
                 _buildSeriesCategory('Documentary'),
-                _buildSeriesCategory('Anime'),
-              ],
+              ], 
             ),
           ),
         ],
