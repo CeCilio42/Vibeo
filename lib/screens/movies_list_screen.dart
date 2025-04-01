@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'tv_series_screen.dart';
 import '../utils/mood_colors.dart';
 import '../models/movie.dart';
+import 'movie_details_screen.dart';
 
 class MoviesListScreen extends StatefulWidget {
   final String? mood;
@@ -135,23 +136,33 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: movies.length,
-            itemBuilder: (context, index) => Container(
-              width: 130,
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: NetworkImage(movies[index].fullPosterPath),
-                  fit: BoxFit.cover,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetailsScreen(movie: movies[index]),
                   ),
-                ],
+                );
+              },
+              child: Container(
+                width: 130,
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: NetworkImage(movies[index].fullPosterPath),
+                    fit: BoxFit.cover,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

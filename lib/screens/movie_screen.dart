@@ -5,6 +5,7 @@ import '../models/movie.dart';
 import 'mood_screen.dart';
 import 'movies_list_screen.dart';
 import 'tv_series_screen.dart';
+import 'movie_details_screen.dart';
 import 'package:vibeo/utils/mood_colors.dart';
 import '../utils/mood_genres.dart';
 
@@ -209,25 +210,37 @@ class _MovieScreenState extends State<MovieScreen> {
                       double scale = 1 - (difference * 0.15);
                       return Transform.scale(
                         scale: scale,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: AspectRatio(
-                            aspectRatio: 2 / 3,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: NetworkImage(featuredMovies[index].fullPosterPath),
-                                  fit: BoxFit.cover,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetailsScreen(
+                                  movie: featuredMovies[index],
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 3),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            child: AspectRatio(
+                              aspectRatio: 2 / 3,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(featuredMovies[index].fullPosterPath),
+                                    fit: BoxFit.cover,
                                   ),
-                                ],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -308,14 +321,26 @@ class _MovieScreenState extends State<MovieScreen> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: recommendedMovies.length,
-                    itemBuilder: (context, index) => Container(
-                      width: 140,
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(recommendedMovies[index].fullPosterPath),
-                          fit: BoxFit.cover,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetailsScreen(
+                              movie: recommendedMovies[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 140,
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(recommendedMovies[index].fullPosterPath),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -337,14 +362,26 @@ class _MovieScreenState extends State<MovieScreen> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: popularMovies.length,
-                    itemBuilder: (context, index) => Container(
-                      width: 140,
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(popularMovies[index].fullPosterPath),
-                          fit: BoxFit.cover,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetailsScreen(
+                              movie: popularMovies[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 140,
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(popularMovies[index].fullPosterPath),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
