@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'tv_series_screen.dart';
+import 'movies_list_screen.dart';
 
-class MoviesListScreen extends StatelessWidget {
-  const MoviesListScreen({super.key});
+class TvSeriesScreen extends StatelessWidget {
+  const TvSeriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,6 @@ class MoviesListScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // Full screen gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -23,7 +22,6 @@ class MoviesListScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Content
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,33 +44,33 @@ class MoviesListScreen extends StatelessWidget {
                     children: [
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                        ),
-                        child: Text('Movies',
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                      SizedBox(width: 8),
-                      OutlinedButton(
-                        onPressed: () {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const TvSeriesScreen(),
+                              builder: (context) => const MoviesListScreen(),
                             ),
                           );
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                        ),
+                        child: Text('Movies',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      SizedBox(width: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: Colors.black),
+                          backgroundColor: Colors.transparent,
                           padding: EdgeInsets.symmetric(horizontal: 18),
                         ),
                         child: Text('TV-Series',
-                            style: TextStyle(color: Colors.white)),
+                            style: TextStyle(color: Colors.black)),
                       ),
                       SizedBox(width: 8),
                       OutlinedButton(
@@ -88,13 +86,12 @@ class MoviesListScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Categories with movies
-                _buildMovieCategory('Action Movies'),
-                _buildMovieCategory('Comedy'),
-                _buildMovieCategory('Drama'),
-                _buildMovieCategory('Sci-Fi'),
-                _buildMovieCategory('Horror'),
-                _buildMovieCategory('Romance'),
+                _buildSeriesCategory('Popular Series'),
+                _buildSeriesCategory('Crime Series'),
+                _buildSeriesCategory('Comedy Series'),
+                _buildSeriesCategory('Drama Series'),
+                _buildSeriesCategory('Documentary'),
+                _buildSeriesCategory('Anime'),
               ],
             ),
           ),
@@ -103,7 +100,7 @@ class MoviesListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMovieCategory(String title) {
+  Widget _buildSeriesCategory(String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

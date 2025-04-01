@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'movies_list_screen.dart';
+import 'tv_series_screen.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
@@ -80,7 +81,14 @@ class _MovieScreenState extends State<MovieScreen> {
                       ),
                       SizedBox(width: 8), // small gap between buttons
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TvSeriesScreen(),
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
