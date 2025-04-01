@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/movie.dart';
-import 'movies_list_screen.dart';
 import 'mood_screen.dart';
+import 'movies_list_screen.dart';
 import 'tv_series_screen.dart';
+import 'package:vibeo/utils/mood_colors.dart';
+
 
 class MovieScreen extends StatefulWidget {
   final String? mood;
@@ -16,7 +18,7 @@ class MovieScreen extends StatefulWidget {
 
 class _MovieScreenState extends State<MovieScreen> {
   final PageController _pageController = PageController(
-    viewportFraction: 0.65, // adjusted to show more of side items
+    viewportFraction: 0.65,
     initialPage: 1,
   );
 
@@ -78,30 +80,28 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     final displayText = 'Welcome John';
+    final backgroundColor = MoodColors.getGradientColorForMood(widget.mood);
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // Full screen gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue.withOpacity(0.6),
+                  backgroundColor.withOpacity(0.6),
                   Colors.black,
                 ],
               ),
             ),
           ),
-          // Content
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Welcome message
                 Padding(
                   padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
                   child: Text(
@@ -114,9 +114,9 @@ class _MovieScreenState extends State<MovieScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8.0, left: 16.0), // added left padding
+                  padding: EdgeInsets.only(bottom: 8.0, left: 16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start, // changed from center
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       OutlinedButton(
                         onPressed: () {
@@ -179,7 +179,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: MediaQuery.of(context).size.height * 0.4,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: featuredMovies.length,
+                    itemCount: 3,
                     itemBuilder: (context, index) {
                       double difference = (page - index).abs();
                       double scale = 1 - (difference * 0.15);
@@ -191,13 +191,8 @@ class _MovieScreenState extends State<MovieScreen> {
                             aspectRatio: 2 / 3,
                             child: Container(
                               decoration: BoxDecoration(
+                                color: Colors.grey[800],
                                 borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    featuredMovies[index].fullPosterPath,
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
@@ -285,19 +280,11 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: recommendedMovies.length,
+                    itemCount: 10,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            recommendedMovies[index].fullPosterPath,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      color: Colors.grey[800],
                     ),
                   ),
                 ),
@@ -316,19 +303,11 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: popularMovies.length,
+                    itemCount: 10,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            popularMovies[index].fullPosterPath,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      color: Colors.grey[800],
                     ),
                   ),
                 ),
