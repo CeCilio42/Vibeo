@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 
-class MovieScreen extends StatelessWidget {
+class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
+
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  final PageController _pageController = PageController(
+    viewportFraction: 0.65, // adjusted to show more of side items
+    initialPage: 1,
+  );
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +32,7 @@ class MovieScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.red.withOpacity(0.6),
+                  Colors.blue.withOpacity(0.6),
                   Colors.black,
                 ],
               ),
@@ -79,56 +95,100 @@ class MovieScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Featured movie - even narrower
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 64.0), // increased from 32.0
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    color: Colors.grey[800],
+                // Featured movies section
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      double scale = index == 1 ? 1.0 : 0.85;
+                      return TweenAnimationBuilder(
+                        tween: Tween<double>(begin: scale, end: scale),
+                        duration: const Duration(milliseconds: 350),
+                        builder: (context, value, child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 10),
+                              child: AspectRatio(
+                                aspectRatio: 2 / 3, // movie poster ratio
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: index == 0
+                                        ? Colors.red[800]
+                                        : index == 1
+                                            ? Colors.blue[800]
+                                            : Colors.green[800],
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // changed from spaceEvenly
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(color: Colors.black, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      SizedBox(
+                        width: 150, // increased width
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            side: BorderSide(color: Colors.black, width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 12), // reduced horizontal padding
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                        ),
-                        child: const Text(
-                          'Play',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          child: const Text(
+                            'Play',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 14), // reduced spacing between buttons
-                      ElevatedButton.icon(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.withOpacity(0.3),
-                          foregroundColor: Colors.white,
-                          side: BorderSide(color: Colors.black, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      SizedBox(width: 14),
+                      SizedBox(
+                        width: 150, // increased width
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.withOpacity(0.3),
+                            foregroundColor: Colors.white,
+                            side: BorderSide(color: Colors.black, width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12), // reduced horizontal padding
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                        ),
-                        icon: const Icon(Icons.add, size: 28),
-                        label: const Text(
-                          'My List',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          icon: const Icon(Icons.add, size: 24), // reduced icon size
+                          label: const Text(
+                            'My List',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
