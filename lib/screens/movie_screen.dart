@@ -179,7 +179,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: MediaQuery.of(context).size.height * 0.4,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: 3,
+                    itemCount: featuredMovies.length,
                     itemBuilder: (context, index) {
                       double difference = (page - index).abs();
                       double scale = 1 - (difference * 0.15);
@@ -191,8 +191,11 @@ class _MovieScreenState extends State<MovieScreen> {
                             aspectRatio: 2 / 3,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey[800],
                                 borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(featuredMovies[index].fullPosterPath),
+                                  fit: BoxFit.cover,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
@@ -280,11 +283,17 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: recommendedMovies.length,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      color: Colors.grey[800],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(recommendedMovies[index].fullPosterPath),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -303,11 +312,17 @@ class _MovieScreenState extends State<MovieScreen> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: popularMovies.length,
                     itemBuilder: (context, index) => Container(
                       width: 140,
                       margin: const EdgeInsets.all(8),
-                      color: Colors.grey[800],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(popularMovies[index].fullPosterPath),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
