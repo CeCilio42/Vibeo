@@ -28,6 +28,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        resValue("style", "NormalTheme", "@android:style/Theme.Light.NoTitleBar.Fullscreen")
     }
 
     buildTypes {
