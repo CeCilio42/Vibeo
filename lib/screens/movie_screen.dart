@@ -166,7 +166,10 @@ class _MovieScreenState extends State<MovieScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TvSeriesScreen(mood: widget.mood),
+                              builder: (context) => TvSeriesScreen(
+                                mood: widget.mood,
+                                movies: featuredMovies + recommendedMovies + popularMovies,
+                              ),
                             ),
                           );
                         },
