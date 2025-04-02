@@ -54,6 +54,7 @@ class MovieDetailsScreen extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.grey,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -62,7 +63,10 @@ class MovieDetailsScreen extends StatelessWidget {
                                 const Icon(Icons.star, color: Colors.amber),
                                 Text(
                                   ' ${movie.voteAverage.toStringAsFixed(1)}/10',
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -70,19 +74,23 @@ class MovieDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),//hiiiii
+                  ),
                   const SizedBox(height: 24),
                   const Text(
                     'Overview',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     movie.overview,
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
