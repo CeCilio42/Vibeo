@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/movie.dart';
+import 'movie_trailer_screen.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final Movie movie;
@@ -69,6 +70,27 @@ class MovieDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ],
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MovieTrailerScreen(
+                                      movieId: movie.id,
+                                      accessToken: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YTk2OWZmZWVhOGEzMGYyZTE4NDhhMjkyOTg2ZDZjYyIsIm5iZiI6MTc0MzUwODIyNy45ODMsInN1YiI6IjY3ZWJkMzAzNjc5NjY1MGRmZThiZjZhOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2sfIdqW7dIDMqXkgDd6nLHsQHKbrtdKJgahXfNMJgwg',
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.play_circle_outline),
+                              label: const Text('Watch Trailer'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              ),
                             ),
                           ],
                         ),
