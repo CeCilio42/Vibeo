@@ -8,6 +8,7 @@ import 'tv_series_screen.dart';
 import 'movie_details_screen.dart';
 import 'package:vibeo/utils/mood_colors.dart';
 import '../utils/mood_genres.dart';
+import 'badges_screen.dart';
 
 class MovieScreen extends StatefulWidget {
   final String? mood;
@@ -125,14 +126,30 @@ class _MovieScreenState extends State<MovieScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 50.0, left: 16.0, bottom: 8.0),
-                  child: Text(
-                    displayText,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  padding: EdgeInsets.only(top: 50.0, left: 16.0, right: 16.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        displayText,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.stars_rounded, color: Colors.white, size: 28),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BadgesScreen(mood: widget.mood),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
