@@ -82,7 +82,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                     SizedBox(width: 8),
                     OutlinedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MovieScreen(mood: widget.mood),
@@ -90,11 +90,11 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                         );
                       },
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.black),
-                        backgroundColor: Colors.transparent,
+                        side: BorderSide.none,
+                        backgroundColor: Colors.black,
                         padding: EdgeInsets.symmetric(horizontal: 18),
                       ),
-                      child: Text('TV-Series', style: TextStyle(color: Colors.black)),
+                      child: Text('TV-Series', style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(width: 8),
                     OutlinedButton(
@@ -107,8 +107,8 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                         );
                       },
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.white),
-                        backgroundColor: Colors.transparent,
+                        side: BorderSide.none,
+                        backgroundColor: Colors.black,
                         padding: EdgeInsets.symmetric(horizontal: 12),
                       ),
                       child: Text(widget.mood ?? 'Mood',

@@ -172,7 +172,7 @@ class _MovieScreenState extends State<MovieScreen> {
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.white),
                           backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 15), // added padding
+                          padding: EdgeInsets.symmetric(horizontal: 15),
                         ),
                         child: Text('Movies',
                             style: TextStyle(color: Colors.white)),
@@ -209,12 +209,12 @@ class _MovieScreenState extends State<MovieScreen> {
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(horizontal: 12), // added padding
+                          side: BorderSide.none,
+                          backgroundColor: Colors.black,
+                          padding: EdgeInsets.symmetric(horizontal: 12),
                         ),
                         child: Text(widget.mood ?? 'Mood',
-                            style: TextStyle(color: Colors.black)),
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),

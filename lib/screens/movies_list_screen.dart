@@ -3,6 +3,7 @@ import 'tv_series_screen.dart';
 import '../utils/mood_colors.dart';
 import '../models/movie.dart';
 import 'movie_details_screen.dart';
+import 'movie_screen.dart';
 
 class MoviesListScreen extends StatefulWidget {
   final String? mood;
@@ -63,14 +64,19 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                     children: [
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieScreen(mood: widget.mood),
+                            ),
+                          );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          backgroundColor: Colors.transparent,
+                          side: BorderSide.none,
+                          backgroundColor: Colors.black,
                           padding: EdgeInsets.symmetric(horizontal: 15),
                         ),
-                        child: Text('Movies', style: TextStyle(color: Colors.black)),
+                        child: Text('Movies', style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(width: 8),
                       OutlinedButton(
@@ -93,11 +99,11 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                       OutlinedButton(
                         onPressed: () {},
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          backgroundColor: Colors.transparent,
+                          side: BorderSide.none,
+                          backgroundColor: Colors.black,
                           padding: EdgeInsets.symmetric(horizontal: 12),
                         ),
-                        child: Text(widget.mood ?? 'Mood', style: TextStyle(color: Colors.black)),
+                        child: Text(widget.mood ?? 'Mood', style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
