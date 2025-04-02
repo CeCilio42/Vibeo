@@ -70,7 +70,7 @@ class MovieDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  ),//hiiiii
                   const SizedBox(height: 24),
                   const Text(
                     'Overview',
