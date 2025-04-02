@@ -22,13 +22,19 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
   @override
   void initState() {
     super.initState();
-    // Create a shuffled copy of the movies list
     shuffledMovies = List.from(widget.movies ?? [])..shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
     final backgroundColor = MoodColors.getGradientColorForMood(widget.mood);
+
+    final categories = {
+      'Top Picks': shuffledMovies.take(6).toList(),
+      'Recommended': shuffledMovies.skip(6).take(6).toList(),
+      'Popular Now': shuffledMovies.skip(12).take(6).toList(),
+      'Top Series': shuffledMovies.skip(18).toList(),
+    };
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -112,36 +118,57 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                 ),
               ),
               Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.all(8),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 2/3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemCount: shuffledMovies.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MovieDetailsScreen(
-                              movie: shuffledMovies[index],
+                child: ListView.builder(
+                  itemCount: categories.length,
+                  itemBuilder: (context, categoryIndex) {
+                    final category = categories.keys.elementAt(categoryIndex);
+                    final categoryMovies = categories[category]!;
+                    
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            category,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(shuffledMovies[index].fullPosterPath),
-                            fit: BoxFit.cover,
+                        ),
+                        SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categoryMovies.length,
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MovieDetailsScreen(
+                                      movie: categoryMovies[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: 140,
+                                margin: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(categoryMovies[index].fullPosterPath),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     );
                   },
                 ),
