@@ -9,7 +9,23 @@ class MovieDetailsScreen extends StatelessWidget {
     Key? key,
     required this.movie,
   }) : super(key: key);
-
+Future<List<Movie>> _fetchMoviesPage(int page) async {
+  final url = Uri.parse(
+    '$baseUrl$endpoint?'
+    'language=en-US'
+    '&sort_by=popularity.desc'
+    '&include_adult=false'
+    '&page=$page'
+  );
+  
+  final response = await http.get(
+    url,
+    headers: {
+      'Authorization': 'Bearer $accessToken',
+      'Content-Type': 'application/json',
+    },
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
